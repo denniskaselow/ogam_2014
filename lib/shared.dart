@@ -1,7 +1,9 @@
 library shared;
 
-import 'package:dartemis/dartemis.dart';
-export 'package:dartemis/dartemis.dart';
+import 'dart:math';
+
+import 'package:dartemis/dartemis_mirrors.dart';
+export 'package:dartemis/dartemis_mirrors.dart';
 
 import 'package:gamedev_helpers/gamedev_helpers_shared.dart';
 
