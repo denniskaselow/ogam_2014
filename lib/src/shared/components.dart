@@ -9,3 +9,4 @@ class Transform extends Component {
 }
 
 class MoveToMouseClickPosition extends Component {}
+class Camera extends Component {}

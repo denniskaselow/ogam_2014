@@ -5,5 +5,5 @@ dependencies:
   canvas_query: any
   dartemis_toolbox: any
   gamedev_helpers:
-    git: https://github.com/denniskaselow/gamedev_helpers
-#    path: ../gamedev_helpers
+#    git: https://github.com/denniskaselow/gamedev_helpers
+    path: ../gamedev_helpers

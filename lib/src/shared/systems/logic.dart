@@ -2,17 +2,26 @@ part of shared;
 
 
 class MovementSystem extends EntityProcessingSystem {
-  Point pos;
+  static const noDiff = const Point(0.0, 0.0);
+  static const center = const Point(400.0, 300.0);
+
+  Point diff = noDiff;
   ComponentMapper<Transform> tm;
   MovementSystem() : super(Aspect.getAspectForAllOf([Transform, MoveToMouseClickPosition]));
 
   void processEntity(Entity entity) {
     var t = tm.get(entity);
-    var diff = pos - t.pos;
+
     var sx = FastMath.signum(diff.x);
     var sy = FastMath.signum(diff.y);
-    t.pos += new Point(sx * min(world.delta / 8, diff.x.abs()), sy * min(world.delta / 8, diff.y.abs()));
+    var change = new Point(sx * min(world.delta / 8, diff.x.abs()), sy * min(world.delta / 8, diff.y.abs()));
+    t.pos += change;
+    diff -= change;
   }
 
-  bool checkProcessing() => null != pos;
+  void updateDiff(Point pos) {
+    diff = pos - center;
+  }
+
+  bool checkProcessing() => noDiff != diff;
 }

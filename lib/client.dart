@@ -3,6 +3,8 @@ library client;
 import 'dart:html';
 export 'dart:html';
 
+import 'dart:collection';
+
 import 'package:ogam_2014/shared.dart';
 export 'package:ogam_2014/shared.dart';
 

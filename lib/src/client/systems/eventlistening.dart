@@ -5,18 +5,26 @@ class MouseClickEventListenerSystem extends VoidEntitySystem {
   CanvasElement canvas;
   Point offset;
   bool handleEvent = false;
+  Queue<int> foobar;
   MouseClickEventListenerSystem(this.canvas);
 
   void initialize() {
-    canvas.onClick.listen((event) {
+    var mmListener = canvas.onMouseMove.listen((event) {
       offset = event.offset;
       handleEvent = true;
     });
+    mmListener.pause();
+    canvas.onMouseDown.listen((event) {
+      offset = event.offset;
+      handleEvent = true;
+      mmListener.resume();
+    });
+    canvas.onMouseUp.listen((_) => mmListener.pause());
   }
 
   void processSystem() {
     handleEvent = false;
-    ms.pos = offset;
+    ms.updateDiff(offset);
   }
 
   bool checkProcessing() => handleEvent;
