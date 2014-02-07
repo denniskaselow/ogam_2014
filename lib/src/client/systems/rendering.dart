@@ -14,12 +14,15 @@ class RenderingSystem extends EntityProcessingSystem {
 
 class CameraPositioningSystem extends EntityProcessingSystem {
   ComponentMapper<Transform> tm;
+  CanvasElement canvas;
   CanvasRenderingContext2D ctx;
   CanvasElement buffer;
-  CameraPositioningSystem(this.ctx, this.buffer) : super(Aspect.getAspectForAllOf([Camera, Transform]));
+  CameraPositioningSystem(CanvasElement canvas, this.buffer) : ctx = canvas.context2D,
+                                                               canvas = canvas,
+                                                               super(Aspect.getAspectForAllOf([Camera, Transform]));
 
   void begin() {
-    ctx.setTransform(1, 0, 0, 1, 400, 300);
+    ctx.setTransform(1, 0, 0, 1, canvas.width ~/ 2, canvas.height ~/ 2);
   }
 
   void processEntity(Entity entity) {

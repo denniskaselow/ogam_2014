@@ -3,7 +3,7 @@ part of shared;
 
 class MovementSystem extends EntityProcessingSystem {
   static const noDiff = const Point(0.0, 0.0);
-  static const center = const Point(400.0, 300.0);
+  static var center = const Point(400.0, 300.0);
 
   Point diff = noDiff;
   ComponentMapper<Transform> tm;

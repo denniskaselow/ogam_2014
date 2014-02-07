@@ -14,7 +14,8 @@ class Game extends GameBase {
   CanvasElement buffer;
 
   Game() : super.noAssets('ogam_2014', 'canvas', 800, 600) {
-    buffer = new CanvasElement(width: 800, height: 600);
+    canvas.requestFullscreen();
+    buffer = new CanvasElement(width: canvas.width, height: canvas.height);
   }
 
   void createEntities() {
@@ -32,15 +33,18 @@ class Game extends GameBase {
             new CanvasCleaningSystem(canvas),
             new CanvasCleaningSystem(buffer),
             new RenderingSystem(buffer.context2D),
-            new CameraPositioningSystem(ctx, buffer),
+            new CameraPositioningSystem(canvas, buffer),
             new FpsRenderingSystem(ctx),
     ];
   }
 
-  Future onInit() {
-  }
+  Future onInit() {}
+  Future onInitDone() {}
 
-  Future onInitDone() {
+  void handleResize(int width, int height) {
+    buffer.width = width;
+    buffer.height = height;
+    MovementSystem.center = new Point(width ~/ 2, height ~/ 2);
   }
 
   World createWorld() => new World();
