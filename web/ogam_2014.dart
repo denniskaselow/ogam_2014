@@ -2,7 +2,9 @@ import 'package:ogam_2014/client.dart';
 
 @MirrorsUsed(targets: const [CanvasCleaningSystem, FpsRenderingSystem,
                              RenderingSystem, MovementSystem,
-                             MouseClickEventListenerSystem
+                             MouseClickEventListenerSystem,
+                             MouseMoveEventListeningSystem,
+                             MousePositionRenderingSystem
                             ])
 import 'dart:mirrors';
 
@@ -13,26 +15,29 @@ void main() {
 class Game extends GameBase {
   CanvasElement buffer;
 
-  Game() : super.noAssets('ogam_2014', 'canvas', 800, 600) {
+  Game() : super.noAssets('ogam_2014', 'canvas', 1024, 576) {
     canvas.requestFullscreen();
-    buffer = new CanvasElement(width: canvas.width, height: canvas.height);
+    buffer = new CanvasElement(width: GRID_SIZE * TILES_X, height: GRID_SIZE * TILES_Y);
   }
 
   void createEntities() {
-    addEntity([new Transform(100, 100), new MoveToMouseClickPosition(), new Camera()]);
-    addEntity([new Transform(10, 10)]);
-    addEntity([new Transform(500, 500)]);
-    addEntity([new Transform(10, 500)]);
-    addEntity([new Transform(500, 10)]);
+    addEntity([new Transform(TILES_X ~/ 2, TILES_Y ~/ 2), new MoveToMouseClickPosition(), new Camera()]);
+    addEntity([new Transform(1, 1)]);
+    addEntity([new Transform(TILES_X - 2, TILES_Y - 2)]);
+    addEntity([new Transform(1, TILES_Y - 2)]);
+    addEntity([new Transform(TILES_X - 2, 1)]);
   }
 
   List<EntitySystem> getSystems() {
+    MovementSystem.center = new Point(canvas.width / 2, canvas.height / 2);
     return [
             new MouseClickEventListenerSystem(canvas),
+            new MouseMoveEventListeningSystem(canvas),
             new MovementSystem(),
-            new CanvasCleaningSystem(canvas),
+            new CanvasCleaningSystem(canvas, fillStyle: 'black'),
             new CanvasCleaningSystem(buffer),
             new RenderingSystem(buffer.context2D),
+            new MousePositionRenderingSystem(canvas, buffer.context2D),
             new CameraPositioningSystem(canvas, buffer),
             new FpsRenderingSystem(ctx),
     ];
@@ -42,9 +47,7 @@ class Game extends GameBase {
   Future onInitDone() {}
 
   void handleResize(int width, int height) {
-    buffer.width = width;
-    buffer.height = height;
-    MovementSystem.center = new Point(width ~/ 2, height ~/ 2);
+    MovementSystem.center = new Point(width / 2, height / 2);
   }
 
   World createWorld() => new World();

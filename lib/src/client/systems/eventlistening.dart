@@ -3,9 +3,8 @@ part of client;
 class MouseClickEventListenerSystem extends VoidEntitySystem {
   MovementSystem ms;
   CanvasElement canvas;
-  Point offset;
-  bool handleEvent = false;
-  Queue<int> foobar;
+  Point<double> offset;
+  var handleEvent = false;
   MouseClickEventListenerSystem(this.canvas);
 
   void initialize() {
@@ -25,6 +24,27 @@ class MouseClickEventListenerSystem extends VoidEntitySystem {
   void processSystem() {
     handleEvent = false;
     ms.updateDiff(offset);
+  }
+
+  bool checkProcessing() => handleEvent;
+}
+
+class MouseMoveEventListeningSystem extends VoidEntitySystem {
+  CanvasElement canvas;
+  Point<double> offset;
+  var handleEvent = false;
+  MouseMoveEventListeningSystem(this.canvas) : super();
+
+  void initialize() {
+    var mmListener = canvas.onMouseMove.listen((event) {
+      offset = event.offset;
+      handleEvent = true;
+    });
+  }
+
+  void processSystem() {
+    handleEvent = false;
+    MousePositionRenderingSystem.pos = offset;
   }
 
   bool checkProcessing() => handleEvent;
