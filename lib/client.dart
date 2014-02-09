@@ -2,14 +2,14 @@ library client;
 
 import 'dart:html';
 export 'dart:html';
-
-import 'dart:collection';
+import 'dart:web_gl';
+export 'dart:web_gl';
+import 'dart:typed_data';
+export 'dart:typed_data';
 
 import 'package:ogam_2014/shared.dart';
 export 'package:ogam_2014/shared.dart';
 
-import 'package:canvas_query/canvas_query.dart';
-export 'package:canvas_query/canvas_query.dart';
 import 'package:gamedev_helpers/gamedev_helpers.dart';
 export 'package:gamedev_helpers/gamedev_helpers.dart';
 

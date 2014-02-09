@@ -21,7 +21,7 @@ class MovementSystem extends EntityProcessingSystem {
   void updateDiff(Point<double> pos) {
     var temp = new Point(pos.x - center.x, pos.y - center.y);
     temp = new Point(temp.x + FastMath.signum(temp.x) * GRID_SIZE/2, temp.y + FastMath.signum(temp.y) * GRID_SIZE/2);
-    diff = new Point(temp.x ~/ GRID_SIZE + diff.x % 1, temp.y ~/ GRID_SIZE + diff.y % 1);
+    diff = new Point(temp.x ~/ GRID_SIZE + diff.x % 1, -(temp.y ~/ GRID_SIZE) + diff.y % 1);
   }
 
   bool checkProcessing() => noDiff != diff;
